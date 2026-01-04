@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Globe, Leaf, Cloud, Github, ExternalLink, Folder, Gamepad2, User, Target, Glasses, ArrowLeft } from 'lucide-react';
+import { Github, ExternalLink, ArrowLeft } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { Project } from '../types';
-
-const iconMap: Record<string, React.ReactNode> = {
-    Globe: <Globe className="text-primary" size={32} />,
-    Leaf: <Leaf className="text-primary" size={32} />,
-    Cloud: <Cloud className="text-primary" size={32} />,
-    Folder: <Folder className="text-primary" size={32} />,
-    Gamepad2: <Gamepad2 className="text-primary" size={32} />,
-    User: <User className="text-primary" size={32} />,
-    Target: <Target className="text-primary" size={32} />,
-    Glasses: <Glasses className="text-primary" size={32} />,
-};
+import DynamicIcon from '../components/DynamicIcon';
 
 const AllProjects: React.FC = () => {
     const { data, loading } = usePortfolioData();
@@ -104,7 +94,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                     mass: 0.6,
                     restDelta: 0.001,
                 }}
-                style={{ transformStyle: 'preserve-3d', backfaceVisibility: 'hidden' }}
+                style={{ transformStyle: 'preserve-3d' }}
             >
                 {isFlipped ? (
                     <div className="w-full flex flex-col items-center" style={{ transform: 'rotateY(180deg)' }}>
@@ -120,13 +110,13 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                                 ))}
                             </div>
                         </div>
-                        <div className="mt-auto flex gap-3">
+                        <div className="mt-auto flex gap-3 relative z-20">
                             {project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '' && (
                                 <a
                                     href={project.githubUrl.startsWith('http') ? project.githubUrl : `https://${project.githubUrl}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-1 text-sm bg-primary text-background px-3 py-1 rounded"
+                                    className="flex items-center gap-1 text-sm bg-primary text-background px-3 py-1 rounded hover:bg-primary/90 transition-colors cursor-pointer"
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <Github size={16} />
@@ -138,7 +128,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                                     href={project.demoUrl.startsWith('http') ? project.demoUrl : `https://${project.demoUrl}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-1 text-sm border border-primary text-text px-3 py-1 rounded"
+                                    className="flex items-center gap-1 text-sm border border-primary text-text px-3 py-1 rounded hover:bg-primary/10 transition-colors cursor-pointer"
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <ExternalLink size={16} />
@@ -149,7 +139,9 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                     </div>
                 ) : (
                     <div className="w-full flex flex-col items-center justify-center text-center">
-                        <div className="mb-4">{iconMap[project.icon] || <Folder className="text-primary" size={32} />}</div>
+                        <div className="mb-4">
+                            <DynamicIcon name={project.icon} className="text-primary" size={32} />
+                        </div>
                         <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                         <p className="text-primary mb-2">{project.tagline}</p>
                         <p className="text-sm text-text/70 line-clamp-2">{shortDescription}</p>

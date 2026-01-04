@@ -19,7 +19,12 @@ const About: React.FC = () => {
 
   // Parse bio to add highlighting for keywords
   const formatBio = (bio: string) => {
-    const keywords = ['entrepreneur', 'tech enthusiast', 'impactful', 'revolutionize', 'innovation', 'accessibility'];
+    const keywords = [
+      'technical entrepreneur',
+      'Unity gameplay development',
+      'why things work',
+      'experimenting'
+    ];
     let formattedBio = bio;
 
     keywords.forEach(keyword => {

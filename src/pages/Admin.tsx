@@ -1,99 +1,83 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useBlog } from '../hooks/useBlog';
+import * as LucideIcons from 'lucide-react';
 import {
     User, FileText, Code, Clock, FolderOpen, Mail, BookOpen,
     LogOut, Save, RotateCcw, Menu, X, Plus, Trash2, ChevronDown, ChevronUp,
-    Edit2, Eye, EyeOff, Layers,
-    // Icons for picker
-    School, BookOpenCheck, GraduationCap, Glasses, Award, Satellite, Rocket, Youtube,
-    Star, Briefcase, Trophy, Heart, Zap, Target, Flag, Gift, Music, Camera,
-    Plane, Car, Home, Coffee, Smartphone, Laptop, Globe, Leaf, Cloud, Folder,
-    Users, Settings, Bell, Calendar, Map, MessageCircle, Phone, Search, Share2
+    Edit2, Eye, EyeOff, Layers, Search, Users
 } from 'lucide-react';
 import { ProfileData, AboutData, SkillCategory, TimelineItem, Project, ContactInfo, CollaborationData, CustomSection, BlogPost } from '../types';
 import { defaultPortfolioData } from '../data/defaultData';
+import DynamicIcon from '../components/DynamicIcon';
 
 type Section = 'profile' | 'about' | 'skills' | 'timeline' | 'projects' | 'contact' | 'collaboration' | 'sections' | 'blog';
 
-// Available icons for selection
-const availableIcons = [
-    { name: 'School', icon: School },
-    { name: 'BookOpen', icon: BookOpenCheck },
-    { name: 'GraduationCap', icon: GraduationCap },
-    { name: 'Glasses', icon: Glasses },
-    { name: 'Award', icon: Award },
-    { name: 'Satellite', icon: Satellite },
-    { name: 'Rocket', icon: Rocket },
-    { name: 'Youtube', icon: Youtube },
-    { name: 'Star', icon: Star },
-    { name: 'Briefcase', icon: Briefcase },
-    { name: 'Trophy', icon: Trophy },
-    { name: 'Heart', icon: Heart },
-    { name: 'Zap', icon: Zap },
-    { name: 'Target', icon: Target },
-    { name: 'Flag', icon: Flag },
-    { name: 'Gift', icon: Gift },
-    { name: 'Music', icon: Music },
-    { name: 'Camera', icon: Camera },
-    { name: 'Plane', icon: Plane },
-    { name: 'Car', icon: Car },
-    { name: 'Home', icon: Home },
-    { name: 'Coffee', icon: Coffee },
-    { name: 'Smartphone', icon: Smartphone },
-    { name: 'Laptop', icon: Laptop },
-    { name: 'Globe', icon: Globe },
-    { name: 'Leaf', icon: Leaf },
-    { name: 'Cloud', icon: Cloud },
-    { name: 'Folder', icon: Folder },
-    { name: 'Users', icon: Users },
-    { name: 'Code', icon: Code },
-    { name: 'Settings', icon: Settings },
-    { name: 'Bell', icon: Bell },
-    { name: 'Calendar', icon: Calendar },
-    { name: 'Map', icon: Map },
-    { name: 'MessageCircle', icon: MessageCircle },
-    { name: 'Phone', icon: Phone },
-    { name: 'Search', icon: Search },
-    { name: 'Share2', icon: Share2 },
-];
-
+// Filter for valid icon names (PascalCase, excluding internal exports)
+const validIconNames = Object.keys(LucideIcons).filter(key =>
+    /^[A-Z][a-zA-Z0-9]+$/.test(key) &&
+    key !== 'createLucideIcon' &&
+    key !== 'Icon' &&
+    typeof (LucideIcons as any)[key] !== 'undefined'
+);
 // Icon Picker Component
 const IconPicker: React.FC<{ selectedIcon: string; onSelect: (icon: string) => void; onClose: () => void }> = ({ selectedIcon, onSelect, onClose }) => {
+    const [search, setSearch] = useState('');
+
+    // Filter icons based on search
+    const filteredIcons = useMemo(() => {
+        if (!search) return validIconNames.slice(0, 100); // Show top 100 initially
+        return validIconNames.filter(name => name.toLowerCase().includes(search.toLowerCase())).slice(0, 100);
+    }, [search]);
+
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-            <div className="bg-[#0f1a1b] rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                <h3 className="text-lg font-semibold mb-4">Select an Icon</h3>
-                <div className="grid grid-cols-6 gap-3">
-                    {availableIcons.map(({ name, icon: IconComponent }) => (
+            <div className="bg-[#0f1a1b] rounded-xl p-6 max-w-md w-full max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold">Select an Icon</h3>
+                    <button onClick={onClose} className="text-text/50 hover:text-text"><X size={20} /></button>
+                </div>
+
+                <div className="relative mb-4">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text/50" size={16} />
+                    <input
+                        type="text"
+                        placeholder="Search icons..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full bg-background border border-primary/30 rounded-lg py-2 pl-10 pr-4 text-text focus:border-primary focus:outline-none"
+                        autoFocus
+                    />
+                </div>
+
+                <div className="grid grid-cols-6 gap-2 overflow-y-auto min-h-[300px] content-start">
+                    {filteredIcons.map((name) => (
                         <button
                             key={name}
                             onClick={() => { onSelect(name); onClose(); }}
-                            className={`p-3 rounded-lg transition-colors ${selectedIcon === name
+                            className={`p-3 rounded-lg transition-colors flex flex-col items-center gap-1 ${selectedIcon === name
                                 ? 'bg-primary text-background'
                                 : 'bg-background/50 hover:bg-primary/20 text-text'
                                 }`}
                             title={name}
                         >
-                            <IconComponent size={20} />
+                            <DynamicIcon name={name} size={20} />
                         </button>
                     ))}
+                    {filteredIcons.length === 0 && (
+                        <div className="col-span-6 text-center text-text/50 py-8">
+                            No icons found matching "{search}"
+                        </div>
+                    )}
                 </div>
-                <button onClick={onClose} className="mt-4 w-full py-2 border border-primary/30 rounded-lg hover:bg-primary/5">
-                    Cancel
-                </button>
             </div>
         </div>
     );
 };
 
-// Get icon component by name
-const getIconByName = (name: string) => {
-    const found = availableIcons.find(i => i.name === name);
-    return found ? found.icon : Star;
-};
+
 
 const Admin: React.FC = () => {
     const navigate = useNavigate();
@@ -536,7 +520,6 @@ const SkillsEditor: React.FC<{ skills: SkillCategory[]; setSkills: (s: SkillCate
     return (
         <div className="space-y-4">
             {skills.map((category, categoryIndex) => {
-                const IconComponent = getIconByName(category.icon);
                 return (
                     <div key={category.id} className="bg-[#0f1a1b] rounded-xl border border-primary/20 overflow-hidden">
                         <div className="p-4 flex items-center justify-between">
@@ -554,7 +537,7 @@ const SkillsEditor: React.FC<{ skills: SkillCategory[]; setSkills: (s: SkillCate
                                     className="p-2 bg-background/50 rounded-lg hover:bg-primary/10 transition-colors"
                                     title="Change icon"
                                 >
-                                    <IconComponent size={20} className="text-primary" />
+                                    <DynamicIcon name={category.icon} size={20} className="text-primary" />
                                 </button>
                                 {editingCategoryId === category.id ? (
                                     <input
@@ -677,7 +660,6 @@ const TimelineEditor: React.FC<{ timeline: TimelineItem[]; setTimeline: (t: Time
     return (
         <div className="space-y-4">
             {timeline.map((item, index) => {
-                const IconComponent = getIconByName(item.icon);
                 return (
                     <div key={item.id} className="bg-[#0f1a1b] rounded-xl border border-primary/20 overflow-hidden">
                         <div className="p-4 flex items-center justify-between">
@@ -695,7 +677,7 @@ const TimelineEditor: React.FC<{ timeline: TimelineItem[]; setTimeline: (t: Time
                                     className="p-2 bg-background/50 rounded-lg hover:bg-primary/10 transition-colors"
                                     title="Change icon"
                                 >
-                                    <IconComponent size={20} className="text-primary" />
+                                    <DynamicIcon name={item.icon} size={20} className="text-primary" />
                                 </button>
                                 <div>
                                     <span className="text-primary text-sm">{item.date}</span>
@@ -730,7 +712,7 @@ const TimelineEditor: React.FC<{ timeline: TimelineItem[]; setTimeline: (t: Time
                                             onClick={() => setShowIconPicker(item.id)}
                                             className="w-full bg-background border border-primary/30 rounded-lg py-2 px-3 text-left flex items-center gap-2 hover:border-primary transition-colors"
                                         >
-                                            <IconComponent size={16} className="text-primary" />
+                                            <DynamicIcon name={item.icon} size={16} className="text-primary" />
                                             <span className="text-sm">{item.icon}</span>
                                         </button>
                                     </div>
@@ -828,7 +810,6 @@ const ProjectsEditor: React.FC<{ projects: Project[]; setProjects: (p: Project[]
     return (
         <div className="space-y-4">
             {projects.map((project, index) => {
-                const IconComponent = getIconByName(project.icon);
                 return (
                     <div key={project.id} className="bg-[#0f1a1b] rounded-xl border border-primary/20 overflow-hidden">
                         <div className="p-4 flex items-center justify-between">
@@ -846,7 +827,7 @@ const ProjectsEditor: React.FC<{ projects: Project[]; setProjects: (p: Project[]
                                     className="p-2 bg-background/50 rounded-lg hover:bg-primary/10 transition-colors"
                                     title="Change icon"
                                 >
-                                    <IconComponent size={20} className="text-primary" />
+                                    <DynamicIcon name={project.icon} size={20} className="text-primary" />
                                 </button>
                                 <div>
                                     <h4 className="font-medium">{project.title}</h4>
@@ -1343,7 +1324,6 @@ const BlogEditor: React.FC<{
 // Collaboration Editor
 const CollaborationEditor: React.FC<{ collaboration: CollaborationData; setCollaboration: (c: CollaborationData) => void }> = ({ collaboration, setCollaboration }) => {
     const [showIconPicker, setShowIconPicker] = useState(false);
-    const IconComponent = getIconByName(collaboration?.icon || 'Users');
 
     if (!collaboration) {
         return (
@@ -1377,7 +1357,7 @@ const CollaborationEditor: React.FC<{ collaboration: CollaborationData; setColla
                             className="p-3 bg-background border border-primary/30 rounded-lg hover:border-primary transition-colors"
                             title="Change icon"
                         >
-                            <IconComponent size={24} className="text-primary" />
+                            <DynamicIcon name={collaboration.icon || 'Users'} size={24} className="text-primary" />
                         </button>
                     </div>
                     <div className="flex-1">
@@ -1492,7 +1472,6 @@ const CustomSectionsEditor: React.FC<{ customSections: CustomSection[]; setCusto
             )}
 
             {customSections.map((section, index) => {
-                const IconComponent = getIconByName(section.icon);
                 return (
                     <div key={section.id} className="bg-[#0f1a1b] rounded-xl border border-primary/20 overflow-hidden">
                         <div className="p-4 flex items-center justify-between">
@@ -1510,7 +1489,7 @@ const CustomSectionsEditor: React.FC<{ customSections: CustomSection[]; setCusto
                                     className="p-2 bg-background/50 rounded-lg hover:bg-primary/10 transition-colors"
                                     title="Change icon"
                                 >
-                                    <IconComponent size={20} className="text-primary" />
+                                    <DynamicIcon name={section.icon} size={20} className="text-primary" />
                                 </button>
                                 <div>
                                     <h4 className="font-medium">{section.title}</h4>

@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, X, Youtube, School, BookOpen, Award, Glasses, Satellite, Rocket, Star, Briefcase, Trophy } from 'lucide-react';
+import { X } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { TimelineItem as TimelineItemType } from '../types';
-
-const iconMap: Record<string, React.ReactNode> = {
-  School: <School size={20} />,
-  BookOpen: <BookOpen size={20} />,
-  GraduationCap: <GraduationCap size={20} />,
-  Glasses: <Glasses size={20} />,
-  Award: <Award size={20} />,
-  Satellite: <Satellite size={20} />,
-  Rocket: <Rocket size={20} />,
-  Youtube: <Youtube size={20} />,
-  Star: <Star size={20} />,
-  Briefcase: <Briefcase size={20} />,
-  Trophy: <Trophy size={20} />,
-};
+import DynamicIcon from './DynamicIcon';
 
 const Timeline: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<TimelineItemType | null>(null);
@@ -64,7 +51,7 @@ const Timeline: React.FC = () => {
                 className="timeline-node cursor-pointer"
                 onClick={() => setSelectedItem(item)}
               >
-                {iconMap[item.icon] || <Star size={20} />}
+                <DynamicIcon name={item.icon} size={20} />
               </div>
               <div className="ml-8">
                 <span className="text-sm text-primary font-medium">{item.date}</span>

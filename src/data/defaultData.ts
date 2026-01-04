@@ -10,7 +10,7 @@ export const defaultProfile: ProfileData = {
 };
 
 export const defaultAbout: AboutData = {
-    bio: "I am a Unity Gameplay Programmer with hands-on experience building gameplay systems, player controllers, physics-based mechanics, animations, and UI using C#. I learn best by building things, breaking them, and fixing them through debugging and experimentation. My current focus is Unity gameplay development, where I work on mechanics, player movement, physics interactions, and UI systems. Alongside technical growth, I am interested in how technical ideas evolve into real products and businesses.",
+    bio: "I can’t stay satisfied with surface-level understanding and always push to know why things work. I learn by experimenting, breaking systems, and fixing them rather than copying solutions. Currently focused on Unity gameplay development, with a long-term goal of building real products and growing into a technical entrepreneur.",
     image: "/b.png"
 };
 

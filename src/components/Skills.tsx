@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code, Lightbulb, Monitor, ChevronDown, ChevronUp, PenTool as Box } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
-
-const iconMap: Record<string, React.ReactNode> = {
-  Code: <Code className="text-primary" size={24} />,
-  Monitor: <Monitor className="text-primary" size={24} />,
-  Box: <Box className="text-primary" size={24} />,
-  Lightbulb: <Lightbulb className="text-primary" size={24} />,
-};
+import DynamicIcon from './DynamicIcon';
 
 const Skills: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -66,7 +60,9 @@ const Skills: React.FC = () => {
                 onClick={() => toggleCategory(category.name)}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-primary">{iconMap[category.icon] || <Code className="text-primary" size={24} />}</span>
+                  <span className="text-primary">
+                    <DynamicIcon name={category.icon} className="text-primary" size={24} />
+                  </span>
                   <span className="font-medium">{category.name}</span>
                 </div>
                 <span className="text-primary">
