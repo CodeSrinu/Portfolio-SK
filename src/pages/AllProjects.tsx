@@ -123,7 +123,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                         <div className="mt-auto flex gap-3">
                             {project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '' && (
                                 <a
-                                    href={project.githubUrl}
+                                    href={project.githubUrl.startsWith('http') ? project.githubUrl : `https://${project.githubUrl}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-sm bg-primary text-background px-3 py-1 rounded"
@@ -135,7 +135,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                             )}
                             {project.demoUrl && project.demoUrl !== '#' && project.demoUrl !== '' && (
                                 <a
-                                    href={project.demoUrl}
+                                    href={project.demoUrl.startsWith('http') ? project.demoUrl : `https://${project.demoUrl}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-sm border border-primary text-text px-3 py-1 rounded"
