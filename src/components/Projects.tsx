@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, ArrowRight } from 'lucide-react';
+import { Github, ExternalLink, ArrowRight, Gamepad2 } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { Project } from '../types';
 import DynamicIcon from './DynamicIcon';
@@ -150,6 +150,18 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 >
                   <ExternalLink size={16} />
                   <span>Live Demo</span>
+                </a>
+              )}
+              {project.playUrl && project.playUrl !== '#' && project.playUrl !== '' && (
+                <a
+                  href={project.playUrl.startsWith('http') ? project.playUrl : `https://${project.playUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-1 text-sm bg-green-600/20 text-green-400 border border-green-600/50 px-3 py-1 rounded hover:bg-green-600/30 transition-colors cursor-pointer"
+                >
+                  <Gamepad2 size={16} />
+                  <span>Play</span>
                 </a>
               )}
             </div>

@@ -44,6 +44,7 @@ export interface Project {
     technologies: string[];
     githubUrl: string;
     demoUrl: string;
+    playUrl?: string;
 }
 
 export interface ContactInfo {

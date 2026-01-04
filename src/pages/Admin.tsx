@@ -783,7 +783,8 @@ const ProjectsEditor: React.FC<{ projects: Project[]; setProjects: (p: Project[]
             icon: 'Folder',
             technologies: [],
             githubUrl: '',
-            demoUrl: ''
+            demoUrl: '',
+            playUrl: ''
         };
         setProjects([...projects, newProject]);
         setExpandedProject(newProject.id);
@@ -903,6 +904,18 @@ const ProjectsEditor: React.FC<{ projects: Project[]; setProjects: (p: Project[]
                                             type="url"
                                             value={project.demoUrl}
                                             onChange={(e) => updateProject(index, { demoUrl: e.target.value })}
+                                            placeholder="https://..."
+                                            className="w-full bg-background border border-primary/30 rounded-lg py-2 px-3 text-text focus:border-primary focus:outline-none text-sm"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <label className="block text-sm font-medium mb-1">
+                                            Play URL <span className="text-text/50 font-normal">(for games)</span>
+                                        </label>
+                                        <input
+                                            type="url"
+                                            value={project.playUrl || ''}
+                                            onChange={(e) => updateProject(index, { playUrl: e.target.value })}
                                             placeholder="https://..."
                                             className="w-full bg-background border border-primary/30 rounded-lg py-2 px-3 text-text focus:border-primary focus:outline-none text-sm"
                                         />
