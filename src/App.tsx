@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Admin from './pages/Admin';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import AllProjects from './pages/AllProjects';
 
 function Portfolio() {
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,7 @@ function App() {
       <Route path="/admin" element={<Admin />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/projects" element={<AllProjects />} />
     </Routes>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Globe, Leaf, Cloud, Github, ExternalLink, Folder } from 'lucide-react';
+import { Globe, Leaf, Cloud, Github, ExternalLink, Folder, Gamepad2, User, Target, Glasses, ArrowRight } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { Project } from '../types';
 
@@ -9,6 +10,10 @@ const iconMap: Record<string, React.ReactNode> = {
   Leaf: <Leaf className="text-primary" size={32} />,
   Cloud: <Cloud className="text-primary" size={32} />,
   Folder: <Folder className="text-primary" size={32} />,
+  Gamepad2: <Gamepad2 className="text-primary" size={32} />,
+  User: <User className="text-primary" size={32} />,
+  Target: <Target className="text-primary" size={32} />,
+  Glasses: <Glasses className="text-primary" size={32} />,
 };
 
 const Projects: React.FC = () => {
@@ -26,6 +31,10 @@ const Projects: React.FC = () => {
 
   const { projects } = data;
 
+  // Show only 3 projects on homepage
+  const displayedProjects = projects.slice(0, 3);
+  const hasMoreProjects = projects.length > 3;
+
   return (
     <section id="projects" className="py-20">
       <div className="container mx-auto px-4">
@@ -41,10 +50,29 @@ const Projects: React.FC = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
+
+        {/* View All Projects - Links to separate page */}
+        {hasMoreProjects && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center mt-10"
+          >
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-primary/30 rounded-full text-primary hover:bg-primary/10 transition-colors"
+            >
+              View All Projects ({projects.length})
+              <ArrowRight size={16} />
+            </Link>
+          </motion.div>
+        )}
       </div>
     </section>
   );
@@ -110,22 +138,24 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               </div>
             </div>
             <div className="mt-auto flex gap-3">
-              {project.githubUrl && project.githubUrl !== '#' && (
+              {project.githubUrl && project.githubUrl !== '#' && project.githubUrl !== '' && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-1 text-sm bg-primary text-background px-3 py-1 rounded"
                 >
                   <Github size={16} />
                   <span>GitHub</span>
                 </a>
               )}
-              {project.demoUrl && project.demoUrl !== '#' && (
+              {project.demoUrl && project.demoUrl !== '#' && project.demoUrl !== '' && (
                 <a
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-1 text-sm border border-primary text-text px-3 py-1 rounded"
                 >
                   <ExternalLink size={16} />

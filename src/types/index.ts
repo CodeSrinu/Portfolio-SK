@@ -6,6 +6,7 @@ export interface ProfileData {
     roles: string[];
     quote: string;
     profileImage: string;
+    resumeUrl?: string;
 }
 
 export interface AboutData {

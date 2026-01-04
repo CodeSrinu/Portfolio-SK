@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { PortfolioData } from '../types';
@@ -26,6 +26,7 @@ export function usePortfolioData() {
                         ...defaultPortfolioData,
                         ...firebaseData,
                         // Ensure nested objects are properly merged
+                        profile: { ...defaultPortfolioData.profile, ...firebaseData.profile },
                         collaboration: firebaseData.collaboration || defaultPortfolioData.collaboration,
                         customSections: firebaseData.customSections || defaultPortfolioData.customSections || []
                     });
@@ -58,23 +59,13 @@ export function usePortfolioData() {
         }
     };
 
+    // Initialize - COMPLETELY REPLACES existing data with defaults
     const initializeData = async () => {
         try {
             const docRef = doc(db, SETTINGS_COLLECTION, PORTFOLIO_DOC);
-            // Always merge with defaults to add any new fields
-            const snapshot = await getDoc(docRef);
-            const existingData = snapshot.exists() ? snapshot.data() as Partial<PortfolioData> : {};
-
-            const mergedData: PortfolioData = {
-                ...defaultPortfolioData,
-                ...existingData,
-                // Ensure new fields are always included
-                collaboration: existingData.collaboration || defaultPortfolioData.collaboration,
-                customSections: existingData.customSections || defaultPortfolioData.customSections || []
-            };
-
-            await setDoc(docRef, mergedData);
-            setData(mergedData);
+            // Completely overwrite with default data
+            await setDoc(docRef, defaultPortfolioData);
+            setData(defaultPortfolioData);
             return true;
         } catch (err) {
             console.error('Error initializing portfolio data:', err);

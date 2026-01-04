@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, FileDown, ExternalLink } from 'lucide-react';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 
 const Hero: React.FC = () => {
@@ -94,7 +94,7 @@ const Hero: React.FC = () => {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 mb-16"
+          className="flex flex-col sm:flex-row gap-4 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -112,6 +112,26 @@ const Hero: React.FC = () => {
             View Projects
           </a>
         </motion.div>
+
+        {/* Resume Button */}
+        {profile.resumeUrl && (
+          <motion.div
+            className="mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+          >
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary/10 border border-primary/30 rounded-full text-primary hover:bg-primary/20 transition-colors"
+            >
+              <FileDown size={18} />
+              View Resume
+            </a>
+          </motion.div>
+        )}
 
         <motion.div
           className="absolute bottom-8 left-0 right-0 flex justify-center"

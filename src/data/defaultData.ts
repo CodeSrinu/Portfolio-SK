@@ -3,63 +3,66 @@ import { ProfileData, AboutData, SkillCategory, TimelineItem, Project, ContactIn
 export const defaultProfile: ProfileData = {
     name: "Srinivasu Kadiyam",
     nickname: "Srinu",
-    roles: ["Entrepreneur", "Tech Enthusiast", "Innovator"],
-    quote: "Help Millions, To make Millions",
-    profileImage: "https://i.postimg.cc/kgGdy3bD/Srinu.png"
+    roles: ["Unity Gameplay Programmer", "Aspiring Entrepreneur", "Problem Solver"],
+    quote: "Learn by building, breaking, and debugging",
+    profileImage: "https://i.postimg.cc/kgGdy3bD/Srinu.png",
+    resumeUrl: ""
 };
 
 export const defaultAbout: AboutData = {
-    bio: "I am a passionate entrepreneur and tech enthusiast, dedicated to creating impactful solutions. Through my startup and VR projects, I aim to revolutionize agriculture and education. My journey is driven by innovation and accessibility.",
+    bio: "I am a Unity Gameplay Programmer with hands-on experience building gameplay systems, player controllers, physics-based mechanics, animations, and UI using C#. I learn best by building things, breaking them, and fixing them through debugging and experimentation. My current focus is Unity gameplay development, where I work on mechanics, player movement, physics interactions, and UI systems. Alongside technical growth, I am interested in how technical ideas evolve into real products and businesses.",
     image: "/b.png"
 };
 
 export const defaultSkills: SkillCategory[] = [
     {
+        id: "unity-development",
+        name: "Unity & Gameplay",
+        icon: "Gamepad2",
+        skills: [
+            { name: "Unity Editor", level: 85 },
+            { name: "C# Scripting", level: 80 },
+            { name: "Player Controllers", level: 75 },
+            { name: "Physics & Rigidbody", level: 70 },
+            { name: "Animator & Blend Trees", level: 70 },
+            { name: "UI Systems", level: 75 }
+        ]
+    },
+    {
         id: "programming",
         name: "Programming",
         icon: "Code",
         skills: [
-            { name: "C", level: 91 },
-            { name: "Python", level: 95 },
-            { name: "HTML & CSS", level: 92 },
-            { name: "JavaScript", level: 80 },
-            { name: "C#", level: 40 }
+            { name: "C#", level: 80 },
+            { name: "C", level: 75 },
+            { name: "Python", level: 70 },
+            { name: "OOP Concepts", level: 75 }
         ]
     },
     {
-        id: "software-tools",
-        name: "Software Tools",
-        icon: "Monitor",
+        id: "tools",
+        name: "Tools & Workflow",
+        icon: "Wrench",
         skills: [
-            { name: "Git", level: 85 },
-            { name: "Unity", level: 75 },
-            { name: "VS Code", level: 90 },
-            { name: "Postman", level: 80 }
+            { name: "Git & Version Control", level: 80 },
+            { name: "VS Code / Visual Studio", level: 85 },
+            { name: "Mixamo", level: 70 },
+            { name: "Figma", level: 60 }
         ]
     },
     {
-        id: "frameworks",
-        name: "Frameworks & Libraries",
-        icon: "Box",
-        skills: [
-            { name: "React", level: 68 },
-            { name: "Node.js", level: 72 },
-            { name: "Flask", level: 48 }
-        ]
-    },
-    {
-        id: "entrepreneurial",
-        name: "Entrepreneurial Skills",
+        id: "experimental",
+        name: "Learning & Experimental",
         icon: "Lightbulb",
         skills: [
-            { name: "Business Strategy", level: 55 },
-            { name: "Market Analysis", level: 60 },
-            { name: "Funding", level: 45 },
-            { name: "Team Leadership", level: 90 }
+            { name: "Unity XR Toolkit", level: 50 },
+            { name: "VR Fundamentals", level: 55 },
+            { name: "Gameplay Prototyping", level: 70 }
         ]
     }
 ];
 
+// ORIGINAL TIMELINE - kept all existing items, added Unity training
 export const defaultTimeline: TimelineItem[] = [
     {
         id: "school",
@@ -110,41 +113,62 @@ export const defaultTimeline: TimelineItem[] = [
         icon: "Satellite"
     },
     {
-        id: "startup",
-        date: "2025",
-        title: "Startup - Naandhi Tech",
-        shortDescription: "Building a tech-driven platform for farmers.",
-        fullDescription: "Founded Naandhi Tech, a startup dedicated to supporting farmers by providing innovative tech solutions for agriculture.",
-        icon: "Rocket"
-    },
-    {
         id: "youtube",
         date: "2025",
         title: "YouTube - Srinu Bytes",
         shortDescription: "Started Srinu Bytes for tech & VR content.",
         fullDescription: "Launched Srinu Bytes YouTube channel to share insights on VR development, tech innovations, and startup experiences.",
         icon: "Youtube"
+    },
+    {
+        id: "unity-training",
+        date: "2025",
+        title: "Unity Development Training",
+        shortDescription: "Training under professional Unity developer mentor.",
+        fullDescription: "Currently undergoing professional training in Unity game development, learning production-level practices and building real gameplay systems.",
+        icon: "Gamepad2"
     }
 ];
 
+// ORIGINAL PROJECTS - kept Weather Prediction, added Unity projects
 export const defaultProjects: Project[] = [
+    {
+        id: "gameplay-systems",
+        title: "Multi-Level Unity Game",
+        tagline: "Core Gameplay Systems & Progression",
+        description: "Built a complete multi-level Unity game focused on gameplay mechanics, progression, and UI interaction. Implemented player movement, gravity-based jumping, collision handling, and score tracking entirely using C#. Designed three playable levels with increasing difficulty and objective-based progression. Developed full in-game UI systems including menus, settings, score display, game over, and completion screens.",
+        icon: "Gamepad2",
+        technologies: ["Unity", "C#", "Animator", "UI Toolkit"],
+        githubUrl: "",
+        demoUrl: ""
+    },
+    {
+        id: "player-controller",
+        title: "Advanced Player Controller",
+        tagline: "Reusable Movement Systems",
+        description: "Built reusable player controller systems using both Rigidbody-based and CharacterController-based approaches. Implemented movement, jumping, sliding, and camera-follow behavior. Integrated character animations using Animator Controller and Blend Trees. Connected gameplay states with animation transitions and sound effects.",
+        icon: "User",
+        technologies: ["Unity", "C#", "CharacterController", "Rigidbody", "Mixamo"],
+        githubUrl: "",
+        demoUrl: ""
+    },
+    {
+        id: "physics-games",
+        title: "Physics-Based Mini Games",
+        tagline: "Obstacle Courses & Bowling",
+        description: "Developed obstacle course games with collision-based win and fail conditions. Built a bowling game using Rigidbody physics and realistic interactions. Created track-based ball games with moving platforms, ramps, and button-triggered mechanics. All projects focused on understanding Unity physics system deeply.",
+        icon: "Target",
+        technologies: ["Unity", "C#", "Physics", "Rigidbody", "Colliders"],
+        githubUrl: "",
+        demoUrl: ""
+    },
     {
         id: "vr-education",
         title: "VR Educational Project",
         tagline: "Immersive Learning Experience",
         description: "I have consistently worked on VR-based educational projects, focusing on making learning immersive and interactive. My goal has been to leverage VR technology to simplify complex concepts, especially in STEM education. From developing 3D models and simulations to integrating backend communication for VR labs, I have explored various ways to make education more engaging and accessible.",
         icon: "Globe",
-        technologies: ["Unity", "Unreal Engine", "Vuforia", "ARCore"],
-        githubUrl: "",
-        demoUrl: ""
-    },
-    {
-        id: "farm-service",
-        title: "Farm Service Platform",
-        tagline: "My Startup",
-        description: "I am actively working on my startup, Farm Service Platform, which aims to help farmers access essential services efficiently. The platform enables farmers to rent equipment, hire labor, and access services like drone fertilization, harvesting, and organic crop solutions through a WhatsApp bot, mobile app, and toll-free number. The WhatsApp bot is fully functional, and I am currently developing the mobile app while working on real-time service tracking.",
-        icon: "Leaf",
-        technologies: ["React Native", "WhatsApp API", "Node.js", "Real-time Tracking"],
+        technologies: ["Unity", "XR Toolkit", "Vuforia", "C#"],
         githubUrl: "",
         demoUrl: ""
     },
@@ -155,6 +179,16 @@ export const defaultProjects: Project[] = [
         description: "I worked on a Weather Prediction System that used satellite images, radar data, and AI analysis to provide accurate, real-time weather forecasts. The system was designed to predict rainfall with precise timing, benefiting agriculture and institutional weather reporting. I used Python, OpenWeather API, and data from MOSDAC and MAUSAM IMD to process satellite imagery and radar inputs.",
         icon: "Cloud",
         technologies: ["Python", "OpenWeather API", "MOSDAC", "MAUSAM IMD"],
+        githubUrl: "",
+        demoUrl: ""
+    },
+    {
+        id: "xr-experiments",
+        title: "XR & VR Experiments",
+        tagline: "Learning VR Fundamentals",
+        description: "Set up and tested basic VR scenes using Unity XR Device Simulator. Experimented with VR interactions and controller input handling. Actively troubleshooting XR controller input issues to strengthen XR fundamentals and learn immersive development.",
+        icon: "Glasses",
+        technologies: ["Unity", "XR Toolkit", "VR", "C#"],
         githubUrl: "",
         demoUrl: ""
     }
@@ -169,9 +203,9 @@ export const defaultContact: ContactInfo = {
 };
 
 export const defaultCollaboration: CollaborationData = {
-    title: "Let's Collaborate",
-    description: "Exciting opportunity to work on my VR Educational Project and startup! I'm looking for individuals with expertise in UI/UX, 3D modeling, VR Unity, and ECE subjects to create impactful educational solutions and scale my Farm Service Platform.",
-    buttonText: "Collaborate Now",
+    title: "Let's Build Together",
+    description: "I'm actively looking for opportunities to collaborate on Unity game projects and immersive experiences! Whether it's gameplay programming, physics systems, or VR development — I'm eager to learn and contribute to production-level projects.",
+    buttonText: "Get in Touch",
     buttonLink: "#contact",
     icon: "Users",
     visible: true

@@ -417,6 +417,18 @@ const ProfileEditor: React.FC<{ profile: ProfileData; setProfile: (p: ProfileDat
                             placeholder="Entrepreneur, Developer, Designer"
                         />
                     </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Resume URL <span className="text-text/50 font-normal">(PDF link)</span></label>
+                        <input
+                            type="url"
+                            value={profile.resumeUrl || ''}
+                            onChange={(e) => updateField('resumeUrl', e.target.value)}
+                            className="w-full bg-background border border-primary/30 rounded-lg py-2 px-4 text-text focus:border-primary focus:outline-none"
+                            placeholder="https://drive.google.com/file/d/.../view"
+                        />
+                        <p className="text-xs text-text/50 mt-1">Upload your resume to Google Drive or Dropbox and paste the shareable link here.</p>
+                    </div>
                 </div>
             </div>
         </div>
