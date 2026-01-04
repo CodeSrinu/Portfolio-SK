@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-text font-sans;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #00cccc, #00aaff);
+  transition: width 0.5s ease;
+}
+
+.gradient-border.animate::after {
+  width: 100%;
+}
+
+.cursor-glow {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 204, 204, 0.5);
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  mix-blend-mode: screen;
+  filter: blur(5px);
+  transition: transform 0.1s ease;
+}
+
+.primary-btn {
+  @apply px-6 py-3 rounded-md font-medium transition-all duration-300 bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:shadow-primary/20;
+}
+
+.outline-btn {
+  @apply px-6 py-3 rounded-md font-medium transition-all duration-300 border-2 border-primary text-white hover:bg-primary/20;
+}
+
+.timeline-node {
+  @apply w-10 h-10 rounded-full bg-background border-2 border-primary flex items-center justify-center text-primary transition-all duration-300;
+}
+
+.timeline-node:hover {
+  @apply bg-primary text-background shadow-lg shadow-primary/30;
+}
+
+.timeline-line {
+  @apply absolute left-5 top-10 w-0.5 h-[calc(100%-40px)] bg-gradient-to-b from-primary to-secondary;
+}
+
+.project-card {
+  @apply relative bg-background/50 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden transition-all duration-500;
+  perspective: 1000px;
+}
+
+.project-card-inner {
+  @apply relative w-full h-full transition-all duration-500;
+  transform-style: preserve-3d;
+}
+
+.project-card:hover .project-card-inner {
+  transform: rotateY(180deg);
+}
+
+.project-card-front, .project-card-back {
+  @apply absolute w-full h-full backface-hidden;
+}
+
+.project-card-back {
+  transform: rotateY(180deg);
+}
+
+.skill-category {
+  @apply cursor-pointer transition-all duration-300 overflow-hidden;
+}
+
+.skill-list {
+  @apply grid gap-2 overflow-hidden transition-all duration-500;
+  max-height: 0;
+}
+
+.skill-category.active .skill-list {
+  max-height: 500px;
+}
+
+.backface-hidden {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.modal {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300;
+}
+
+.modal.active {
+  @apply opacity-100 pointer-events-auto;
+}
+
+.modal-content {
+  @apply bg-background border border-gray-800 rounded-xl p-6 w-full max-w-lg transform scale-95 transition-all duration-300;
+}
+
+.modal.active .modal-content {
+  @apply scale-100;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(0, 204, 204, 0.7);
+}
+
+.font-quote {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-elegant {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(0, 204, 204, 0.3);
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s infinite;
+}
